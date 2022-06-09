@@ -1,5 +1,23 @@
 # ZYNQ学习
 
+## 连接ZYNQ(不要忘记换成桥接)
+
++ nfs使用 
+
+`mount -t nfs -o nolock 192.168.31.245:/home/zynq7020/linux/nfs /mnt`
+
++ ssh使用
+
+`scp chrdevbaseApp chrdevbase.ko root@192.168.1.133:/lib/modules/4.14.0-xilinx`
+
+## framebuffer驱动
+
+mmap
+
+```c
+void* mmap(void* start,size_t length,int prot,int flags,int fd,off_t offset);
+```
+
 ## 所用文档
 
 ug1085和ug1137
@@ -38,5 +56,3 @@ E(AXI-GPIO)-->F(PL)
 + BOOT.BIN(fsbl和uboot)
 
 + rootfs(跟文件系统)
-  
-  
