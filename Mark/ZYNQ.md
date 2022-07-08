@@ -38,5 +38,3 @@ E(AXI-GPIO)-->F(PL)
 + BOOT.BIN(fsbl和uboot)
 
 + rootfs(跟文件系统)
-  
-  
