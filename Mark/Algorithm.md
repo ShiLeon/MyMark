@@ -6,8 +6,6 @@ $x=\frac{\sum_{i=1}^{N}gray(x_i)*x_i}{\sum_{i=1}^{N}gray(x_i)}$
 
 --------
 
-
-
 # Steger算法
 
 ## 原理
