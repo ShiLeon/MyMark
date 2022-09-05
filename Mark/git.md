@@ -23,6 +23,9 @@ git checkout xxx
 //切换并创建分支
 git checkout -b xxx
 git switch -c xxx
+
+
+git log --graph --pretty=oneline --abbrev-commit    //显示分支结构
 ```
 
 ## git解决冲突
