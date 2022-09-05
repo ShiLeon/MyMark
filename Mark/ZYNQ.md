@@ -56,3 +56,30 @@ E(AXI-GPIO)-->F(PL)
 + BOOT.BIN(fsbl和uboot)
 
 + rootfs(跟文件系统)
+
+## 编译内核
+
+```shell
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- xilinx_zynq_defconfig //defconf 配置
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig //配置内核
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage -j16 //编译 zImage
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- system-top.dtb //编译设备树
+```
+
+## MobaXterm连接ZYNQ(不要忘记换成桥接)
+
++ nfs使用 
+
+`mount -t nfs -o nolock 192.168.31.245:/home/zynq7020/linux/nfs /mnt`
+
++ ssh使用
+
+`scp chrdevbaseApp chrdevbase.ko root@192.168.1.133:/lib/modules/4.14.0-xilinx`
+
+## framebuffer驱动
+
+mmap
+
+```c
+void* mmap(void* start,size_t length,int prot,int flags,int fd,off_t offset);
+```
