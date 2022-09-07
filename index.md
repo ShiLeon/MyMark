@@ -1,5 +1,7 @@
 # Leon‘s  markdown笔记
 
+本笔记数学公式使用LaTex语法
+
 + [Verilog](Mark/Verilog.md)
 
 + [ZYNQ](Mark/ZYNQ.md)
