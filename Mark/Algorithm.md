@@ -33,7 +33,7 @@ $x=\frac{\sum_{i=1}^{N}gray(x_i)*x_i}{\sum_{i=1}^{N}gray(x_i)}$
 + 一阶偏导
 
 > $\frac{\partial{G}}{\partial{x}}=-\frac{1}{2\pi\sigma^4}xe^{-\frac{x^2+y^2}{2\sigma^2}}$
-> $\frac{\partial{G}}{\partial{y}}=-\frac{1}{\sqrt{2\pi}\sigma^4}ye^{-\frac{x^2+y^2}{2\sigma^2}}$
+> $\frac{\partial{G}}{\partial{y}}=-\frac{1}{2\pi\sigma^4}ye^{-\frac{x^2+y^2}{2\sigma^2}}$
 
 + 二阶偏导
 
@@ -42,6 +42,10 @@ $x=\frac{\sum_{i=1}^{N}gray(x_i)*x_i}{\sum_{i=1}^{N}gray(x_i)}$
 > $\frac{\partial^2{G}}{\partial{x}\partial{y}}=(\frac{xy}{2\pi\sigma^6})e^{-\frac{x^2+y^2}{2\sigma^2}}$
 
 ### 2.Hessian矩阵
+
+是一个多元函数的二阶偏导数构成的方阵，描述了函数的**局部曲率**，可判定**多元函数的极值**问题。 
+
+#### 线条边缘法线方向对应于Hessian矩阵最大绝对特征值的特征向量
 
 $H(x,y)=\begin{bmatrix}
  r_{xx} & r_{xy} \\

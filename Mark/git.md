@@ -35,3 +35,12 @@ git merge xxx      //从xxx分支merge到当前分支
 git diff --check   //检查分支冲突
 cat xxx            //查看文件
 ```
+
+## git版本回退
+
+```
+git log --pretty=oneline
+git reset --hard 需要回退版本的key
+git reset --hard HEAD^
+reset --hard HEAD~ 需要回退版本次数
+```
