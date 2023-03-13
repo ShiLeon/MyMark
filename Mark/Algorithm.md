@@ -41,6 +41,15 @@ $x=\frac{\sum_{i=1}^{N}gray(x_i)*x_i}{\sum_{i=1}^{N}gray(x_i)}$
 > $\frac{\partial^2{G}}{\partial{x}^2}=(-\frac{1}{2\pi\sigma^4})(1-\frac{y^2}{\sigma^2})e^{-\frac{x^2+y^2}{2\sigma^2}}$ 
 > $\frac{\partial^2{G}}{\partial{x}\partial{y}}=(\frac{xy}{2\pi\sigma^6})e^{-\frac{x^2+y^2}{2\sigma^2}}$
 
+#### 卷积核大小选取
+
++ 模板大小 $ h_{size}= 2 *  round(3\sigma - 1) + 1$
+
++ $\sigma \ge \frac{L_{w}}{\sqrt{3}}$
+
++ $3\sigma$ 原则
+  ![](D:\GitRepository\MyMark\img\a.jpg)
+
 ### 2.Hessian矩阵
 
 是一个多元函数的二阶偏导数构成的方阵，描述了函数的**局部曲率**，可判定**多元函数的极值**问题。 
@@ -67,3 +76,5 @@ $(n_x,n_y)=(\frac{r_{xy}}{\sqrt{r_{xy}^2+(r_{xx-\lambda})^2}} , \frac{\lambda-r_
 ### 4.验证$(p_x,p_y) \in [-0.5,0.5] \times [-0.5,0.5]$
 
 $(p_x,p_y) =(\frac{r_{xy}[r_{xy}r_x+(\lambda-r_{xx})r_y]} {(r_{xx}-\lambda)[r_{xy}^2+(\lambda-r_{xx})r_{yy}]-\lambda r_{xy}^2} , \frac{(\lambda-r_{xx})[r_{xy}r_x+(\lambda-r_{xx})r_y]} {(r_{xx}-\lambda)[r_{xy}^2+(\lambda-r_{xx})r_{yy}]-\lambda r_{xy}^2})$
+
+----

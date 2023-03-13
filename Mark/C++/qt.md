@@ -1,3 +1,19 @@
+# QT
+
+## QPixmap、QBitmap、QImage和 QPicture区别
+
+- `QPixmap`专门为图像在屏幕上的显示做了优化；（绘制性能最好）
+- `QBitmap`是 QPixmap 的一个子类，它的色深限定为 1，你可以使用 QPixmap 的 isQBitmap() 函数来确定这个 QPixmap 是不是一个 QBitmap；
+- `QImage`专门为图像的像素级访问做了优化；（像素级访问，可在子线程绘制）
+- `QPicture`可以记录和重现 QPainter 的各条命令；（QPicture只能用于作绘图设备时保存图片状态，要显示必须重写绘图事件，将状态图片加载到QPicture，然后在窗口显示）
+
+### 转换(建议先QImage加载，转成QPixmap绘制)
+
+```cpp
+QImage image = pixmap.toImage()；
+QPixmap pixmap = QPixmap::fromImage(image);
+```
+
 ## Visual Studio + Qt槽的使用
 
 + 方法一：拖拽自定义槽
@@ -60,42 +76,6 @@ qDebug() << QThread::currentThreadId() << QThread::currentThread();
   
   > MSVC xxx.dll
 
-## IDE使用
-
-### VisualStudio 配置库
-
-+ 添加附加包含目录
-  
-  **项目** --- **属性** --- **属性页** --- **C/C++** --- **常规**--- **附加包含目录**
-
-+ 添加附加库目录
-  
-  **项目** --- **属性** --- **属性页** --- **链接器** --- **常规** --- **附加库目录**
-
-+ 添加附加依赖项
-  
-  **项目** --- **属性** --- **属性页** --- **链接器** --- **输入** --- **附加依赖项**
-
-### MSVC中文乱码
-
-- 原因：qt creator文件使用的是UTF-8编码，但MSVC生成的可执行文件的编码是windows本地的字符集如GB2312
-
-- 解决方法：
-  
-  > 1.使用QStringLiteral()宏封装字符串
-  > 
-  > 2.强制MSVC使用UTF-编码
-  > 
-  > ```
-  > #pragma execution_character_set("utf-8")
-  > ```
-  > 
-  > 3.全局方式
-  > 
-  > + 全局使用utf-8编码
-  > 
-  > + **项目** --- **属性** --- **属性页** --- **C/C++** --- **所有选项**--- **附加选项**`/utf-8`
-
 ### qmake拷贝文件文件夹到输出目录
 
 ```qmake
@@ -119,3 +99,32 @@ adddir.path = $$OUT_PWD/
 COPIES += addfile
 COPIES += adddir
 ```
+
+## .pro文件的说明
+
++ INCLUDEPATH的作用：
+  
+   1.该目录下的所有.H文件都被认为是工程中.CPP文件的依赖项，因此，任一.H文件的变更都将引起所有.CPP的重新编译；
+  
+  2.在#include的时候，不需要填写完整路径，会去每个目录中检查。
+
++ DEPENDPATH的作用：
+  
+  该选项的意义等同于INCLUDEPATH的第一个含义。
+
++ LIBS的作用
+  该选项的意义是将指定依赖库的路径，以及依赖库的名称。（动态库/静态库）
+
++ PRE_TARGETDEPS 的作用
+  
+  该选项的意义是针对静态库来说，每次都会重新连接静态库，如果没有指定该选项， 程序不会重新连接新的静态库。因此，对于静态库来说，必须指定该选项，避免静态库过时。
+
++ 操作系统选项标志：
+  
+  Pro工程文件中只能识别Windows、Unix、Mac三种操作系统的大类：
+  
+  Windows：win32
+  
+  Unix：unix
+  
+  Mac：macx
