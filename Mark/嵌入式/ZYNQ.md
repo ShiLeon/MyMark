@@ -83,3 +83,15 @@ mmap
 ```c
 void* mmap(void* start,size_t length,int prot,int flags,int fd,off_t offset);
 ```
+
+## 正点原子4384屏像素时钟
+
+$$
+\begin{split}
+Total&=(VSPW+VBP+LINE+VFP) * (HSPW + HBP + HOZVAL + HFP)\\
+&=(3 + 32 + 480 + 13) * (48 + 88 + 800 + 40)\\
+&=528 * 976\\
+&= 515328
+\end{split}\\
+515328 * 60 =3091960\approx31MHz
+$$

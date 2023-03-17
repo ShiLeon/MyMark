@@ -9,6 +9,7 @@ ssh-keygen -t ed25519 -C "your-email"
 ```git
 git add xxxx/.
 git commit -m 'xxxxxx'
+git push origin  gh-pages //推送
 ```
 
 ## git分支处理
