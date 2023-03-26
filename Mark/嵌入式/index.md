@@ -7,6 +7,8 @@
 - [IO学习](IO学习.md)
 + [内存学习](内存学习.md)
 
-+ [linux驱动学习](linux驱动学习.md)
++ [linux驱动](linux驱动.md)
+
++ [linux学习](llinux学习.md)
 
 + [CMake](CMake.md)
