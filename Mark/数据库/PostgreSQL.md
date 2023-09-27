@@ -24,4 +24,4 @@ pg_ctl.exe register -N "pgsql" -D D:\PostgreSQL\12\data
 
 ## C++使用linpgxx连接PostgreSQL
 
-+ 
++ ![](asserts/PostgreSQL/2023-09-27-10-47-44-image.png)

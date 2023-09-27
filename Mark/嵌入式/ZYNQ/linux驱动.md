@@ -1,5 +1,11 @@
 # linux驱动
 
+## 测试程序编译
+
+`echo '. /opt/petalinux/2019.2/environment-setup-aarch64-xilinx-linux' | tee -a ~/.bashrc`保存SDK的环境变量，无需每次编译测试程序时手动设置
+
+使用`$CC xxxx.c -o xxxx`编译测试程序
+
 ## 驱动
 
 驱动是对`/dev`目录下的设备文件进行操作实现对硬件的操作
@@ -14,12 +20,12 @@
   
   ```
   insmod xxx.ko
+  
   //该方式会解决模块依赖问题，默认会去/lib/modules/<kernel-version>目录中查找模块
-  depmod//第一次加载驱动时使用，分析驱动模块
-  依赖
+  depmod//第一次加载驱动时使用，分析驱动模块依赖
   modprobe xxx.ko//推荐 
   
-  rmmod xxx.ko//推荐
+  rmmod xxx.ko//推荐,不卸载驱动依赖
   modprobe -r xxx.ko
   ```
 
@@ -122,6 +128,16 @@ void unregister_chrdev_region(dev_t from, unsigned count);
 + 设置消息级别
 
 `printk(KERN_EMERG "gsmi: Log Shutdown Reason\n"); `
+
+### MMU
+
+1. 完成虚拟空间到物理空间的映射。
+
+2. 内存保护，设置存储器的访问权限，设置虚拟存储空间的缓冲特性。
+
+使用`ioremap(cookie, size);`将指定物理地址映射到虚拟地址上
+
+使用`iounmap(volatile void __iomem *addr)`释放映射
 
 ### 地址映射
 
@@ -512,3 +528,119 @@ static int test_open(struct inode *inode, struct file *filp)
    np：设备节点。
    
    返回值： 获取到的#size-cells 属性值。
+
+## gpio子系统
+
++ gpio子系统用于屏蔽掉最底层的寄存器操作
+
++ pinctrl子系统用于配置引脚复用和电气特性
+
+## 并发与竞争
+
+### linux下的原子操作
+
++ 原子整形操作
+
+```cpp
+atomic_t;
+atomic_t a;
+atomic_t b = ATOMIC_INIT(0);/* 定义并初始化原子变零 v=0 */
+atomic_set(10); /* 设置 v=10 */
+atomic_read(&v); /* 读取 v 的值，肯定是 10 */
+atomic_inc(&v); /* v 的值加 1， v=11 */
+
+//64位
+atomic64_t;
+```
+
++ 原子位操作 
+
+### 自旋锁
+
+会浪费处理器时间，降低系统性能，适用于短时期的轻量级加锁。
+
+```cpp
+spinlock_t lock;
+```
+
+#### 读写锁
+
+同时读取，但是不能在写的时候读
+
+```cpp
+rwlock_t
+```
+
+#### 顺序锁
+
+实现同时读写，但是不允许同时进行并发的写操作
+
+```cpp
+seqlock_t
+```
+
+### 信号量
+
+适用于占用资源比较久的场合
+
+```cpp
+semaphore
+struct semaphore sem; /* 定义信号量 */
+sema_init(&sem, 1); /* 初始化信号量 */
+down(&sem); /* 申请信号量 */
+/* 临界区 */
+up(&sem); /* 释放信号量 */
+```
+
+### 互斥体
+
+```cpp
+mutex
+struct mutex lock; /* 定义一个互斥体 */
+mutex_init(&lock); /* 初始化互斥体 */
+mutex_lock(&lock); /* 上锁 */
+/* 临界区 */
+mutex_unlock(&lock); /* 解锁 */
+```
+
+## 定时器
+
+### 内核定时器
+
+timer_list
+
+## 申请内存
+
+### kmalloc
+
+```cpp
+void *kmalloc(size_t size, gfp_t flags);
+void kfree(const void *addr);
+```
+
++ size：需要分配的内存大小。
+
++ flags：分配内存时所使用的标志位，这些 flag 定义在 include/linux/gfp.h 头文件中
+
++ 申请的虚拟内存物理内存连续，不能超过128k
+
+### kzalloc
+
++ 申请内存空间同时对申请的空间清零
+
++ 与kmalloc一样
+
+### vmalloc
+
+```cpp
+ void *vmalloc(unsigned long size);
+ void vfree(const void *addr);
+```
+
++ 虚拟内存连续物理内存并不一定连续
+
++ 可申请大空间
+
++ 可以休眠所以不能在中断上下文中使用
+
+## 

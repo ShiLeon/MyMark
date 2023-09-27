@@ -1,6 +1,6 @@
 # IDE使用
 
-## IDE使用
+## VisualStudio使用
 
 ### VisualStudio 配置库
 
@@ -35,3 +35,28 @@
   > + 全局使用utf-8编码
   > 
   > + **项目** --- **属性** --- **属性页** --- **C/C++** --- **所有选项**--- **附加选项**`/utf-8`
+
+## CMake
+
+### 方法一
+
++ 创建工程 .c .h CMakeLists.txt 
+  
+  ```
+  cmake_minimum_required(VERSION 3.0)
+  project(CMakeTest)
+  add_executable(CMakeTest CMakeTest.c)
+  ```
+
++ 创建build文件夹,运行cmake
+  
+  ```
+  cd build
+  cmake ..
+  ```
+
++ 运行make
+
+### 方法二
+
++ `Ctrl + Shift + p` 输入` cq`进行快速生成CMake项目

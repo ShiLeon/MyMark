@@ -1,23 +1,5 @@
 # ZYNQ学习
 
-## 连接ZYNQ(不要忘记换成桥接)
-
-+ nfs使用 
-
-`mount -t nfs -o nolock 192.168.31.245:/home/zynq7020/linux/nfs /mnt`
-
-+ ssh使用
-
-`scp chrdevbaseApp chrdevbase.ko root@192.168.1.133:/lib/modules/4.14.0-xilinx`
-
-## framebuffer驱动
-
-mmap
-
-```c
-void* mmap(void* start,size_t length,int prot,int flags,int fd,off_t offset);
-```
-
 ## 所用文档
 
 ug1085和ug1137
@@ -28,13 +10,21 @@ ug1085和ug1137
   
   The global address map is composed of multiple inclusive address maps, depending on the address width of the interface master. The Zynq UltraScale+ MPSoC address map is 40 bits (the physical address space is a maximum of 40 bits).
 
-![](../../img/2022-04-12-10-22-42-image.png)
+![](D:\GitRepository\MyMark\img\2022-04-12-10-22-42-image.png)
 
 ## AXI4协议
 
 ### 握手
 
 VALID和READY信号存在同时为高的时刻，握手即视为成功。
+
+### 分类
+
++ AXI4： 高性能存储映射接口。  
+
++ AXI4-Lite：简化版的 AXI4 接口， 用于较少数据量的存储映射通信。  
+
++ AXI4-Stream： 用于高速数据流传输，非存储映射接口。
 
 ## MIO EMIO AXI-GPIO
 
@@ -95,3 +85,27 @@ Total&=(VSPW+VBP+LINE+VFP) * (HSPW + HBP + HOZVAL + HFP)\\
 \end{split}\\
 515328 * 60 =3091960\approx31MHz
 $$
+
+## BRAM
+
+ZYNQ7020的BRAM有4.9M
+
+### ILA
+
+1. HDL 实例化调试探针流程
+   
+   创建一个ip核
+
+2. 网表插入调试探针流程
+
+        在.v代码里添加`(* mark_debug = “true” *)`
+
+## ZYNQ PS端
+
++ APU（ Application Processing Unit）
+
++ RPU（ Real-Time Processing Unit）
+
++ GPU（ Graphics Processing Unit）
+
+# 

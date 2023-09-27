@@ -1,14 +1,6 @@
-- [Verilog](Verilog.md)
+- [单片机](单片机.md)
++ [通讯](通讯.md)
 
-- [HLS](HLS.md)
++ [FPGA](FPGA.md)
 
-- [ZYNQ](ZYNQ.md)
-
-- [IO学习](IO学习.md)
-+ [内存学习](内存学习.md)
-
-+ [linux驱动](linux驱动.md)
-
-+ [linux学习](llinux学习.md)
-
-+ [CMake](CMake.md)
++ [ZYNQ](ZYNQ/index.md)
