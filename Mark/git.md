@@ -1,3 +1,5 @@
+# git
+
 ## git密钥对
 
 ```shell
@@ -9,7 +11,22 @@ ssh-keygen -t ed25519 -C "your-email"
 ```git
 git add xxxx/.
 git commit -m 'xxxxxx'
-git push origin  gh-pages //推送
+git remote add origin git@github.com:xxxxx//创建远程仓库
+git push origin  gh-pages //推送（可加-u参数简化之后推送）
+```
+
+## git删除分支
+
+```git
+git branch -d xxx
+git branch --delete xxx
+```
+
+## git删除远程分支
+
+```git
+git branch -a //查看所有分支
+git push origin -d xxx
 ```
 
 ## git分支处理

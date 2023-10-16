@@ -226,25 +226,6 @@ cdev_add(&testcdev, devid, 1);
 cdev_del(&testcdev);
 ```
 
-#### 设置文件私有数据
-
-```c
-struct test_dev{
-    dev_t devid;    //设备号
-        struct cdev cdev;
-        struct class *class;    
-        struct device *device;
-        int major;
-        int minor;
-}
-struct test_dev testdev;
-static int test_open(struct inode *inode, struct file *filp)
- {
-     filp->private_data = &testdev; /* 设置私有数据 */
-     return 0;
- }
-```
-
 ### 自动创建设备节点（创建类，创建设备）
 
 ```c
@@ -273,6 +254,25 @@ static int test_open(struct inode *inode, struct file *filp)
 
  module_init(led_init);
  module_exit(led_exit);
+```
+
+#### 设置文件私有数据
+
+```c
+struct test_dev{
+    dev_t devid;    //设备号
+        struct cdev cdev;
+        struct class *class;    
+        struct device *device;
+        int major;
+        int minor;
+}
+struct test_dev testdev;
+static int test_open(struct inode *inode, struct file *filp)
+ {
+     filp->private_data = &testdev; /* 设置私有数据 */
+     return 0;
+ }
 ```
 
 ## 设备树
@@ -537,43 +537,78 @@ static int test_open(struct inode *inode, struct file *filp)
 
 ## 并发与竞争
 
-### linux下的原子操作
+## 并发的情况
+
++ 多线程并发访问
+
++ 抢占式并发访问
+
++ 中断程序并发访问
+
++ SMP（多核）核间并发访问
+
+### linux下的原子操作（有两种，整形和位）
 
 + 原子整形操作
 
 ```cpp
-atomic_t;
-atomic_t a;
-atomic_t b = ATOMIC_INIT(0);/* 定义并初始化原子变零 v=0 */
-atomic_set(10); /* 设置 v=10 */
-atomic_read(&v); /* 读取 v 的值，肯定是 10 */
-atomic_inc(&v); /* v 的值加 1， v=11 */
-
-//64位
-atomic64_t;
+typedef struct{
+    long counter;
+}atomic64_t;
 ```
 
-+ 原子位操作 
+```cpp
+atomic64_t  a;
+atomic64_t b = ATOMIC64_INIT(0);/* 定义并初始化原子变零 v=0 */
+atomic64_set(10); /* 设置 v=10 */
+atomic64_read(&v); /* 读取 v 的值，肯定是 10 */
+atomic64_inc(&v); /* v 的值加 1， v=11 */
 
-### 自旋锁
+//32位
+atomic_t;
+```
 
-会浪费处理器时间，降低系统性能，适用于短时期的轻量级加锁。
++ 原子位操作
+
+```cpp
+set_bit(int nr, void *p);    //将p地址的第nr位置置1
+void clear_bit(int nr,void *p);
+```
+
+### 自旋锁(不允许休眠)
+
+缺点：等待自旋线程会浪费处理器时间，降低系统性能，适用于短时期的轻量级加锁。
 
 ```cpp
 spinlock_t lock;
+spin_lock_init(spinlock_t *lock);
+spin_lock(spinlock_t *lock);
+spin_unlock(spinlock_t *lock);
 ```
 
-#### 读写锁
+获取锁之前关闭本地中断
+
+```cpp
+spin_lock_irqsave(spinlock_t *lock, unsigned long flags)    //保存中断状态，禁止本地中断，并获取自旋锁。
+spin_unlock_irqrestore(spinlock_t*lock, unsigned long flags)    //将中断状态恢复到以前的状态，并且激活本地中断，释放自旋锁。
+```
+
+##### 读写锁
 
 同时读取，但是不能在写的时候读
 
 ```cpp
 rwlock_t
+rwlock_init(rwlock_t *lock)
+read_lock(rwlock_t *lock)
+read_unlock(rwlock_t *lock)
+write_lock(rwlock_t *lock)
+write_unlock(rwlock_t *lock)
 ```
 
-#### 顺序锁
+##### 顺序锁(衍生自读写锁)
 
-实现同时读写，但是不允许同时进行并发的写操作
+实现同时读写，但是不允许同时进行并发的写操作,如果在读的过程中发生了写操作，  最好重新进行读取，保证数据完整性
 
 ```cpp
 seqlock_t
@@ -584,7 +619,14 @@ seqlock_t
 适用于占用资源比较久的场合
 
 ```cpp
-semaphore
+semaphore{
+    raw_spinlock_t    lock;
+    unsigned int    count;
+    struct list_head wait_list;
+};
+```
+
+```cpp
 struct semaphore sem; /* 定义信号量 */
 sema_init(&sem, 1); /* 初始化信号量 */
 down(&sem); /* 申请信号量 */
@@ -594,8 +636,16 @@ up(&sem); /* 释放信号量 */
 
 ### 互斥体
 
+适用于占用资源比较久的场合
+
 ```cpp
-mutex
+struct mutex{
+    atomic_t    count;
+    spinlock_t    wait_lock;
+};
+```
+
+```cpp
 struct mutex lock; /* 定义一个互斥体 */
 mutex_init(&lock); /* 初始化互斥体 */
 mutex_lock(&lock); /* 上锁 */
@@ -605,9 +655,37 @@ mutex_unlock(&lock); /* 解锁 */
 
 ## 定时器
 
++ HZ节拍率（系统频率）
+
++ jiffies记录系统从启动以来的系统节拍数
+
 ### 内核定时器
 
 timer_list
+
+```cpp
+struct timer_list timer;
+void function(unsigned long arg){
+    mod_timer(&timer, jiffies + msecs_to_jiffies(2000));
+}
+void init(void){
+    timer_setup(&timer, function, 0);
+    timer.expires=jffies + msecs_to_jiffies(2000);
+}
+void exit(void){
+    del_timer(&timer);
+    /*或者使用*/
+    del_timer_sync(&timer);
+}
+```
+
+### 短延时函数
+
+```cpp
+void ndelay(unsigned long nsecs)
+void udelay(unsigned long usecs)
+Void mdelay(unsigned long mseces)
+```
 
 ## 申请内存
 
@@ -643,4 +721,205 @@ void kfree(const void *addr);
 
 + 可以休眠所以不能在中断上下文中使用
 
-## 
+## gpio子系统
+
++ gpio子系统配置io特性(输入输出高低电平有效)
+
++ pinctrl子系统配置io电气特性（对于 ZYNQ MPSoC可以忽略）
+
+## 中断
+
+分为上半部和下半部，目的是位实现中断处理函数的快进快出
+
++ 上半部（处理过程比较快，不会占用很长时间）
+
++ 下半部（中断处理过程耗时的部分提出来）
+
+### 下半部机制
+
+#### 不可以休眠的任务
+
+##### 软中断
+
+```c
+struct softirq_action{
+    void(*action)(struct softirq_action *);
+}
+static struct softirq_action softirq_vec[NR_SOFTIRQS];
+```
+
+使用
+
+```c
+void open_softirq(int nr, void (*action)(struct softirq_action *))
+void raise_softirq(unsigned int nr)
+void __init softirq_init(void)
+{
+     int cpu;
+
+    for_each_possible_cpu(cpu) {
+    per_cpu(tasklet_vec, cpu).tail =
+    &per_cpu(tasklet_vec, cpu).head;
+    per_cpu(tasklet_hi_vec, cpu).tail =
+    &per_cpu(tasklet_hi_vec, cpu).head;
+    }
+
+    open_softirq(TASKLET_SOFTIRQ, tasklet_action);
+    open_softirq(HI_SOFTIRQ, tasklet_hi_action);
+}
+```
+
+##### tasklet（推荐）
+
+```c
+struct tasklet_struct{
+    struct tasklet_struct *next;
+    unsigned long state;
+    atomic_t count;
+    void(*func)(unsigned long);
+    unsigned long data;
+}
+```
+
+使用
+
+```c
+/* 定义 taselet */
+struct tasklet_struct testtasklet;
+/* tasklet 处理函数 */
+void testtasklet_func(unsigned long data)
+{
+/* tasklet 具体处理内容 */
+}
+/* 中断处理函数 */
+irqreturn_t test_handler(int irq, void 
+{
+......
+/* 调度 tasklet */
+tasklet_schedule(&testtasklet);
+......
+}
+/* 驱动入口函数 */
+static int __init xxxx_init(void)
+{
+......
+/* 初始化 tasklet */
+tasklet_init(&testtasklet, testtasklet_func, data);
+/* 注册中断处理函数 */
+request_irq(xxx_irq, test_handler, 0, "xxx", &xxx_dev);
+......
+}
+```
+
+#### 可休眠的任务
+
+##### 工作队列（推后的工作可以睡眠选这个）
+
+```c
+/* 定义工作(work) */
+struct work_struct testwork;
+/* work 处理函数 */
+void testwork_func_t(struct work_struct *work);
+{
+/* work 具体处理内容 */
+}
+/* 中断处理函数 */
+irqreturn_t test_handler(int irq, void *dev_id)
+{
+......
+/* 调度 work */
+schedule_work(&testwork);
+......
+}
+/* 驱动入口函数 */
+static int __init xxxx_init(void)
+{
+......
+/* 初始化 work */
+INIT_WORK(&testwork, testwork_func_t);
+/* 注册中断处理函数 */
+request_irq(xxx_irq, test_handler, 0, "xxx", &xxx_dev);
+......
+}
+```
+
+## 阻塞和非阻塞
+
+### 阻塞
+
+等待队列
+
+### 非阻塞
+
+#### 轮询
+
+##### select（单个线程最多监视1024个文件描述符）
+
+```c
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)
+```
+
+```c
+void main(void){
+    int ret, fd;        /* 要监视的文件描述符 */
+    fd_set readfds;    /* 读操作文件描述符集 */
+    struct timeval timeout;        /* 超时结构体 */
+    fd = open("dev_xxx", O_RDWR | O_NONBLOCK);    /* 非阻塞式访问*/
+
+    FD_ZERO(&readfds);        /* 清除readfds */
+    FD_SET(fd, &readfds);        /* 将fd添加到readfds里面*/ 
+    /* 构造超时时间 */   
+    timeout.tv_sec = 0;
+    timeout.tvusec = 500000;    /* 500ms */
+    ret = select(fd + 1, &readfds, NULL, NULL, &timeout);
+    switch(ret){
+    case 0:        /* 超时 */
+        printf("timeout!\r\n");
+        break;
+    case -1:        /* 错误 */
+        printf("error!\r\n");
+        break;
+    defalut:        /* 可以读取数据 */
+        if(FD_ISSET(fd, &readfds)){        /* 判断是否为fd文件描述符 */
+                                           /* 使用read函数读取数据*/
+    }    
+    break;
+    }
+}
+```
+
+##### poll
+
+```c
+int poll(struct pollfd *fds, nfds_t nfds, int timeout)
+```
+
+```c
+void main(){
+    int ret;
+    int fd;    /* 要监视的文件描述符 */
+    struct pollfd fds;
+    
+    fd = open(filename, O_RDWR | O_NONBLOCK);/* 非阻塞式访问 */
+    
+    /* 构造结构体 */
+    fds.fd = fd;
+    fds.events = POLLIN;    /* 监视数据是否可以读取 */
+    ret = poll(&fds, 1, 500);    /* 轮询文件是否可操作， 超时500ms */
+    if(ret){    /* 数据有效 */
+    ······
+    /* 读取数据 */
+    ······    
+    }
+    else if(ret == 0){    /* 超时 */
+    ······    
+    }
+    else if(ret < 0){    /* 错误 */
+    ······    
+    }    
+}
+```
+
+##### epoll（处理大并发）
+
+## 异步通知
