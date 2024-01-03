@@ -6,6 +6,8 @@
 ssh-keygen -t ed25519 -C "your-email"
 ```
 
+必须登记公钥，才能git clone别人的库
+
 ## git 提交文件
 
 ```git

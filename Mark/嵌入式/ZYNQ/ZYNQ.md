@@ -108,4 +108,8 @@ ZYNQ7020的BRAM有4.9M
 
 + GPU（ Graphics Processing Unit）
 
-# 
+## 报错别慌
+
+ 1.![](D:\GitRepository\MyMark\img\2023-10-27-20-47-19-image.png)
+
+别用usb扩展坞（垃圾绿联）

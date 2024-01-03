@@ -8,4 +8,4 @@
 
 + [PCL](PCL.md)
 
-+ [qt](qt.md)
++ [qt及环境配置](qt及环境配置.md)
