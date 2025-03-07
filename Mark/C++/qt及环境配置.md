@@ -156,3 +156,23 @@ COPIES += adddir
 使用`export QT_QPA_PLATFORM = xxx`来请求一个插件
 
 使用`-platform`来快速测试
+
+-platform eglfs
+
+## 打包相关
+
+### 软件图标
+
+将xxx.ico放到工程根目录
+
+```
+RC_ICONS = xxx.ico
+```
+
+### 自带打包方式
+
+打开qt自带软件
+
+```
+windeployqt xxx.exe
+```

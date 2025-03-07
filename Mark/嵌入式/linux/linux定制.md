@@ -43,6 +43,8 @@ petalinux-build -x mrproper -f
 ***编译内核
 make distclean
 make xilinx_zynqmp_defconfig
+unset PKG_CONFIG_PATH
+make menuconfig
 make -j8
 make dtbs //编译设备树
 ```
@@ -181,4 +183,10 @@ saveenv //保存环境变量
 sudo apt update
 sudo apt upgrade
 sudo apt dist-upgrade
+```
+
+## ubuntu不打印信息时
+
+```
+dmessg-c
 ```
