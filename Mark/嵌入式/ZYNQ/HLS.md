@@ -1,6 +1,6 @@
 ## 变量与接口的关联
 
-![](../../../img/2022-07-24-20-05-12-image.png)
+![2022-07-24-20-05-12-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2022-07-24-20-05-12-image.png)
 
 ## pipeline和dataflow的区别
 

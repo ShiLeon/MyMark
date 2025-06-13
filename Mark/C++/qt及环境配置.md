@@ -18,9 +18,9 @@ QPixmap pixmap = QPixmap::fromImage(image);
 
 + 方法一：拖拽自定义槽
   
-  <img title="" src="../img/9374305026978839b7020058e9a5f5e75d0f7908.png" alt="" width="357">
+  ![9374305026978839b7020058e9a5f5e75d0f7908](../../img/9374305026978839b7020058e9a5f5e75d0f7908.png)
   
-  ![](../img/170fda00d8a868cd1e11485c30f878b84b89e52c.png)
+  ![](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/170fda00d8a868cd1e11485c30f878b84b89e52c.png)
 
 + 方法二：代码方式
   

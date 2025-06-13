@@ -23,41 +23,39 @@ CAN（Controller Area Network）是20世纪80年代初德国Bosch公司为解决
 
 ### 数据帧
 
-![image-20250317162448810](D:\GitRepository\MyMark\img\image-20250317162448810.png)
+![image-20250317162448810](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250317162448810.png)
 
 ### 远程帧
 
-![image-20250318085420804](D:\GitRepository\MyMark\img\image-20250318085420804.png)
+![image-20250318085420804](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318085420804.png)
 
 ### 帧间空间
 
-![image-20250318090015911](D:\GitRepository\MyMark\img\image-20250318090015911.png)
+![image-20250318090015911](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318090015911.png)
 
 ### 错误帧
 
-+ 主动错误
++ 主动错误![image-20250318084133330](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318084133330.png)
 
-![image-20250318084133330](D:\GitRepository\MyMark\img\image-20250318084133330.png)
++ 被动错误!
 
-+ 被动错误
-
-  ![image-20250318084232200](D:\GitRepository\MyMark\img\image-20250318084232200.png)
+  ![image-20250318084232200](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318084232200.png)
 
 ### 超载帧
 
-![image-20250318090224904](D:\GitRepository\MyMark\img\image-20250318090224904.png)
+![image-20250318090224904](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318090224904.png)
 
 ## 位定时与同步
 
 ### 位时间
 
-![image-20250318095813093](D:\GitRepository\MyMark\img\image-20250318095813093.png)
+![image-20250318095813093](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318095813093.png)
 
 ### 位同步
 
 + 硬同步
 
-  ![image-20250318100022105](D:\GitRepository\MyMark\img\image-20250318100022105.png)
+  ![image-20250318100022105](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318100022105.png)
 
 + 重同步
 
@@ -69,22 +67,93 @@ NBT（Nominal Bit Time） 标称位时间
 
 $T_q$（Time Quantum）
 
-# SAEJ1939
+## SAEJ1939
 
-## PDU(Protocol Data Unit)
+### PDU(Protocol Data Unit)
 
-### 构成
+#### 构成
 
 优先级 优先级P 、保留位R 、数据页DP 、PDU 格式PF、 PDU 细节PS 、源地址SA和数据场
 
-![image-20250318102937973](D:\GitRepository\MyMark\img\image-20250318102937973.png)
+![image-20250318102937973](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318102937973.png)
 
-## PGN (Parameter Group Number)
+### PGN (Parameter Group Number)
 
-### 用处
+#### 用处
 
 唯一的标识一个特定的参数组
 
-### 构成
+#### 构成
 
-![image-20250318104146906](D:\GitRepository\MyMark\img\image-20250318104146906.png)
+![image-20250318104146906](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250318104146906.png)
+
+### SPN 可疑参数编号
+
+## CANIF模块
+
+### 发送
+
+
+
+```mermaid
+---
+config:
+  theme: 'forest'
+---
+flowchart TD
+A[PduR]-->|CanIf_Transmit|B[CanIf]-->|Can_Write|C[CanDrv]
+C-->|发送成功调用CanIf_TxConfirmation|B
+C-->D[硬件发送对象]
+```
+
+### 接收
+
+```mermaid
+flowchart TD
+
+A[硬件接收对象]-->|接收成功调用CanIf_RxConfirmation|B[CanIf]-->C[上层通讯模块]
+
+```
+
+## PduR
+
+```mermaid
+---
+config:
+  theme: 'forest'
+---
+flowchart TD
+A[COM]-->|PduR_Transmit|B[PduR]-->|CanIf_Transmit|C[CanIf]
+C-->|PduR_CanIfTxConfirmation|B-->|Com_TxConfirmation|A
+```
+
+## 数据流程
+
+```mermaid
+flowchart TD
+A[RTE]<-->|signal|B[COM]<-->|I-PDU|C[PduR]
+C<-->|I-PDU|D[CAN If]<-->|L-PDU|E[CAN Driver]
+E<-->F[CAN控制器]<-->|Message|G[CAN总线]
+```
+
+## 状态管理
+
+```mermaid
+---
+config:
+  theme: 'forest'
+---
+flowchart TD
+A[CANIF]<-->B[CAN Driver]<-->C
+X[CanSM]<-->|状态管理|C[CAN控制器]
+
+```
+
+
+
+
+
+
+
+
+

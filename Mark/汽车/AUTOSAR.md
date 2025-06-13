@@ -1,4 +1,4 @@
-# 汽车开放系统架构（Automotive Open System Architecture）
+#  汽车开放系统架构（Automotive Open System Architecture）
 
 ## 分成AP和CP
 
@@ -24,7 +24,7 @@
 
 ## Autosar CP
 
-### 层级
+### 层级 
 
 + ASW 应用软件层
 
@@ -62,7 +62,10 @@ C-->|相关.c .h文件|D[集成编译环境IDE]
 D-->E[最终的二进制文件]
 ```
 
-### MCAL开发流程
+### MCAL开发流程![image-20250308104833150](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250308104833150.png)
 
-<img src="D:\GitRepository\MyMark\img\image-20250308104833150.png" alt="image-20250308104833150" style="zoom:80%;" />
+### PNG
 
+![image-20250321090419406](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250321090419406.png)
+
+![image-20250321090841598](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250321090841598.png)

@@ -10,7 +10,7 @@ ug1085和ug1137
   
   The global address map is composed of multiple inclusive address maps, depending on the address width of the interface master. The Zynq UltraScale+ MPSoC address map is 40 bits (the physical address space is a maximum of 40 bits).
 
-![](D:\GitRepository\MyMark\img\2022-04-12-10-22-42-image.png)
+![2022-04-12-10-22-42-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2022-04-12-10-22-42-image.png)
 
 ## AXI4协议
 
@@ -110,6 +110,6 @@ ZYNQ7020的BRAM有4.9M
 
 ## 报错别慌
 
- 1.![](D:\GitRepository\MyMark\img\2023-10-27-20-47-19-image.png)
+ 1.![2023-10-27-20-47-19-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2023-10-27-20-47-19-image.png)
 
 别用usb扩展坞（垃圾绿联）

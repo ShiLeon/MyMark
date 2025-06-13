@@ -12,6 +12,6 @@ https://blog.csdn.net/fuyun32/article/details/138850547
 
 调试的时候可以看到代码
 
-![image-20250312140028338](D:\GitRepository\MyMark\img\image-20250312140028338.png)
+![image-20250312140028338](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250312140028338.png)
 
-![image-20250312140245251](D:\GitRepository\MyMark\img\image-20250312140245251.png)
+![image-20250312140245251](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250312140245251.png)

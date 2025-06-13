@@ -205,4 +205,3 @@ petalinux-package --boot --fsbl --fpga --u-boot --force
  matchbox-desktopu
 ```
 
-## 

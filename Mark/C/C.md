@@ -1,6 +1,6 @@
-<img title="" src="file:///D:/GitRepository/MyMark/img/2023-09-05-21-41-49-image.png" alt="" width="134">
+![2023-09-05-21-41-49-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2023-09-05-21-41-49-image.png)
 
-# 字符串操作
+## 字符串操作
 
 + 复制字符串
 
@@ -45,3 +45,7 @@ while(p != NULL) {
     p = strtok(NULL, ",");
 }
 ```
+
+## #include
+
+👍😎被包含的文件在编译时会将内容全部拷贝到包含的文件开头，把定义写到.h文件中会增加编译的负担

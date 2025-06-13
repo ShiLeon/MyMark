@@ -1,16 +1,20 @@
 ## 卷积方式
 
-+ full mode
++ fullmode
   
-  <img src="../img/2022-10-26-08-51-04-image.png" title="" alt="" width="169">
+![2022-10-26-08-51-04-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2022-10-26-08-51-04-image.png)
 
+  
+  
 + same mode
   
-  <img title="" src="../img/2022-10-26-08-51-50-image.png" alt="" width="163">
+  ![2022-10-26-08-51-50-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2022-10-26-08-51-50-image.png)
 
-+ valid mode
++ validmode 
+
+  ![2022-10-26-08-53-52-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2022-10-26-08-53-52-image.png)
+
   
-  <img title="" src="../img/2022-10-26-08-53-52-image.png" alt="" width="156">   
 
 ## feature map 大小计算
 
