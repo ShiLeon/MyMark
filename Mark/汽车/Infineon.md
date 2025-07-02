@@ -1,2 +1,0 @@
-GTM模块中各个子模块按照Cluster进行划分，每个Cluster有各自的时钟配置。其中整个GTM模块的时钟管理单元CMU属于Cluster0。
-
