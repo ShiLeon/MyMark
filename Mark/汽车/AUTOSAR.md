@@ -69,3 +69,16 @@ D-->E[最终的二进制文件]
 ![image-20250321090419406](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250321090419406.png)
 
 ![image-20250321090841598](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250321090841598.png)
+
+### Trico+RTAOS模块的初始化
+
+1.Mcal 相关的初始化，以及一些模块的PreInit
+
+```mermaid
+graph LR
+A[main.c]-->|EcuM_Init（）|B[EcuM_Startup.c]-->|EcuM_AL_DriverInitOne|C[EcuM_Cfg_Startup.c]
+```
+
+2.OS启动后默认启动的Task ECU_StartupTask上初始化
+
+进行BswM_Init
