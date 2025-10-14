@@ -17,4 +17,10 @@ conda update xxx
 
 ```
 
+## 32 64位平台切换
+
+```
+set CONDA_FORCE_32BIT=1
+conda env config vars set CONDA_FORCE_32BIT=1
+```
 
