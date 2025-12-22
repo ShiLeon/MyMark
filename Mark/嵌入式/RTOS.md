@@ -6,6 +6,3 @@
 
 协程式任务调度(很少用到)：正在运行的任务主动释放CPU后才能切换到下一个任务。 
 
-## 任务优先级和中断优先级
-
-![image-20250326171950632](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/image-20250326171950632.png)

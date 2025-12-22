@@ -83,10 +83,6 @@ A[main.c]-->|EcuM_Init（）|B[EcuM_Startup.c]-->|EcuM_AL_DriverInitOne|C[EcuM_C
 
 进行BswM_Init
 
-### BswM模块
-
-![image-20250823144121314](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/20250823144121402.png)
-
 ### COM模块
 
 #### Signal的发送属性
@@ -143,6 +139,16 @@ A-->|TMS = False|C[ComTxModeFalse]
   若一个信号的过滤算法配置为ONE_EVERY_N时，该信号值每更新N次，这个信号的TMC值为True；
 
 一个I-PDU的TMS的值是根据其所有下属的信号的TMC结果决定的，若一个I-PDU下属的信号中至少有一个信号的TMC计算为True，那么这个I-PDU的TMS为True，只有该I-PD下属的所有的信号的TMC都计算为False时，该I-PDU的TMS才为False。
+
+### Configuration Class
+
+[AUTOSAR参数配置类及变体概述_variant-pre-compile-CSDN博客](https://blog.csdn.net/jsls135/article/details/109851319)
+
++ Pre-compile time
++ Link time
++ Post-build time 
+
+
 
 
 

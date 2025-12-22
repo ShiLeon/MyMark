@@ -1,3 +1,14 @@
+# C自定编程规范
+
+使用蛇形命名法
+
+| 约定名称                  | 格式                                                       |
+| :------------------------ | :--------------------------------------------------------- |
+| **变量**                  | `lowercase_with_underscores` `PascalCase_With_Underscores` |
+| **函数**                  | `PascalCase_With_Underscores`                              |
+| **宏、常量**              | `UPPERCASE_WITH_UNDERSCORES`                               |
+| **结构体、枚举、typedef** | `PascalCase`                                               |
+
 ![2023-09-05-21-41-49-image](https://gitee.com/ShiLeon/my-mark-image-repository/raw/master/2023-09-05-21-41-49-image.png)
 
 ## 字符串操作
@@ -49,3 +60,11 @@ while(p != NULL) {
 ## #include
 
 👍😎被包含的文件在编译时会将内容全部拷贝到包含的文件开头，把定义写到.h文件中会增加编译的负担
+
+## 拷贝注意事项
+
++ 数组之间不能直接用=
+
++ 结构体拷贝，数组会被**完整拷贝**，创建独立的副本
+
+  
